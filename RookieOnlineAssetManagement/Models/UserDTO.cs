@@ -37,7 +37,7 @@ namespace RookieOnlineAssetManagement.Models
         public string Location { get; set; } = null!;
         public string StaffCode { get; set; }
 
-        public HttpStatusCode StatusCode { get; internal set; }
+        //public HttpStatusCode StatusCode { get; internal set; }
     }
 }
 

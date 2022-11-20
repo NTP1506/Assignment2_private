@@ -9,6 +9,7 @@ namespace RookieOnlineAssetManagement.Profiles
         public UserProfile()
         {
             CreateMap<User, UserModel>();
+            CreateMap<UserDTO, User>();
         }
     }
 }

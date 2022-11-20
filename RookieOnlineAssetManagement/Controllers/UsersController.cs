@@ -23,12 +23,14 @@ namespace RookieOnlineAssetManagement.Controllers
         
         private readonly UserManager<User> _userManager;
         private readonly IUserRepository _userRepository;
-        
+        private readonly SignInManager<User> _signInManager;
 
-        public UsersController(UserManager<User> userManager, IUserRepository userRepository)
+
+        public UsersController(UserManager<User> userManager, IUserRepository userRepository, SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _userRepository = userRepository;
+            _signInManager = signInManager;
         }
 
         [HttpGet]
@@ -50,10 +52,10 @@ namespace RookieOnlineAssetManagement.Controllers
                         return Ok("yes");
                         break;
                     case 1:
-                        return BadRequest("Age must be older than 18 years old");
+                        return BadRequest("User is under 18. Please select a different date");
                         break;
                     case 2:
-                        return BadRequest("JoinedDay must be later than DOB");
+                        return BadRequest("Joined date is not later than Date of Birth.Please select a different date");
                         break;
                     case 3:
                         return BadRequest("Please choose gender");
@@ -61,12 +63,22 @@ namespace RookieOnlineAssetManagement.Controllers
                     case 4:
                         return BadRequest("Please choose Type");
                         break;
+                    case 5:
+                        return BadRequest("Joined date is Saturday or Sunday. Please select a different date");
+                        break;
 
                 }
 
             }
             return BadRequest();
 
+        }
+        [HttpGet("Logout")]
+        public async Task<ActionResult> Logout()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            await _signInManager.SignOutAsync();
+            return Ok();
         }
     }
 }

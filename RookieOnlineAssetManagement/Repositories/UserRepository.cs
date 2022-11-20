@@ -61,7 +61,7 @@ namespace RookieOnlineAssetManagement.Repositories
                 return 1;
             }
             DateTime JD = DateTime.Parse(model.JoinedDay.ToString());
-            if (JD.Day < DOB.Day)
+            if (JD.Year < DOB.Year || JD.Year == DOB.Year && JD.Month > DOB.Month || JD.Year == DOB.Year && JD.Month == DOB.Month && JD.Date > DOB.Date)
             {
                 return 2;
             }
@@ -74,8 +74,13 @@ namespace RookieOnlineAssetManagement.Repositories
             {
                 return 4;
             }
-            var users = user;
-            model.Location = users.Location;
+            if(JD.DayOfWeek == DayOfWeek.Saturday || JD.DayOfWeek == DayOfWeek.Sunday )
+            {
+                return 5;
+            }    
+            
+            //var users = user;
+            //model.Location = users.Location;
 
             var password = new PasswordHasher<UserDTO>();
             var hashed = password.HashPassword(model, $"{model.UserName}@{model.DateofBirth.ToString("ddMMyyyy")}");

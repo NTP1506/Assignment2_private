@@ -13,13 +13,19 @@ const Header = () => {
         });
     }, []);
     console.log(username);
+    const HandleLogout = () => {
+        axios.get('/api/Users/Logout')
+            .then(() => {
+                window.location.href = "/Identity/Account/Login?returnUrl=" + window.location.pathname;
+            })
+    }
     return (
         <Navbar expand="lg" className="bg-nash-red" variant="dark">
             <Container>
                 <Navbar.Brand href="#">Home</Navbar.Brand>
                 <Nav className="justify-content-end">
                     <NavDropdown title={username}>
-                        <NavDropdown.Item href="#logout">
+                        <NavDropdown.Item onClick={HandleLogout}>
                             Logout
                         </NavDropdown.Item>
                     </NavDropdown>
